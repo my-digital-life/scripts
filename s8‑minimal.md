@@ -1,7 +1,7 @@
 Samsung S8 Ultra‑Minimal Debloat Script (ADB + PowerShell)
 
-This project provides a safe, ultra‑minimal debloat script for the Samsung Galaxy S8 (and similar Samsung devices) using ADB and PowerShell.  
-It is designed for devices that are no longer used as phones, and instead repurposed for:  
+This project provides a safe, ultra‑minimal debloat script for the Samsung Galaxy S8 using ADB and PowerShell.  
+I designed this for my 2 s8 devices that are no longer used as phones, and instead repurposed for:  
 • 	Wi‑Fi‑only use  
 • 	Camera  
 • 	GPS  
@@ -45,9 +45,9 @@ This ensures the device remains fully functional as a camera + GPS + Wi‑Fi too
 
 ✔ Requirements  
 • 	Windows PC  
-• 	ADB installed (platform‑tools)  
+• 	ADB installed  
 • 	USB debugging enabled on the device  
-• 	Samsung Galaxy S8 (or similar Samsung device)  
+• 	Samsung Galaxy S8  
 
 ✔ How to Use  
 1. 	Connect your Samsung device via USB  
