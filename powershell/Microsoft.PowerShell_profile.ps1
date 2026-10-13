@@ -1,5 +1,6 @@
 # PowerShell Profile
-# Repository: https://github.com/my-digital-life/scripts/powershell
+# Repository: https://github.com/my-digital-life/scripts/
+# https://github.com/my-digital-life/scripts/blob/master/powershell/Microsoft.PowerShell_profile.ps1
 # Last Updated: 2026-10-12
 oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\kali.omp.json" | Invoke-Expression
 Set-Alias open explorer.exe
