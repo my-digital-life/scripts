@@ -32,6 +32,167 @@ adb version
 
 ---
 
+# WinSCP
+
+## Install Using WinGet
+
+```powershell
+winget install WinSCP.WinSCP
+```
+
+Verify:
+
+```powershell
+winget list WinSCP
+```
+
+---
+
+## Connect to Termux
+
+### Protocol
+
+```text
+SFTP
+```
+
+### Hostname
+
+```text
+192.168.1.192
+```
+
+### Port
+
+```text
+8022
+```
+
+### Username
+
+```text
+u0_a248
+```
+
+### Password
+
+```text
+<your Termux password>
+```
+
+---
+
+## Common Locations
+
+### Termux Home Directory
+
+```text
+/data/data/com.termux/files/home
+```
+
+### Shared Storage
+
+Requires:
+
+```bash
+termux-setup-storage
+```
+
+Location:
+
+```text
+/storage/emulated/0
+```
+
+Equivalent to:
+
+```text
+Internal Storage
+```
+
+### Downloads Folder
+
+```text
+/storage/emulated/0/Download
+```
+
+### Documents Folder
+
+```text
+/storage/emulated/0/Documents
+```
+
+---
+
+## Transfer Examples
+
+### Upload debloat.md
+
+Local:
+
+```text
+C:\Users\<username>\Documents\debloat.md
+```
+
+Remote:
+
+```text
+/data/data/com.termux/files/home/debloat.md
+```
+
+### Upload APK
+
+Remote:
+
+```text
+/storage/emulated/0/Download/
+```
+
+Install:
+
+```bash
+adb -s 192.168.1.192:5555 install /path/to/app.apk
+```
+
+or manually from Android.
+
+---
+
+## SSH Test
+
+Verify SSH before opening WinSCP:
+
+```bash
+ssh -p 8022 u0_a248@192.168.1.192
+```
+
+Expected:
+
+```text
+Welcome to Termux!
+```
+
+---
+
+## Recover SSH
+
+If WinSCP stops connecting:
+
+```bash
+pkill sshd
+sshd
+```
+
+Verify:
+
+```bash
+ssh -p 8022 u0_a248@192.168.1.192
+```
+
+Then reconnect WinSCP.
+
+---
+
 # Connect A05 via ADB
 
 ### USB
