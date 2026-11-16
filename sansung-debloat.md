@@ -217,7 +217,7 @@ Restore default size:
 adb shell wm size reset
 ```
 
-## Using WiFi connection (tcip)
+## Using WiFi connection (tcpip)
 
 ```powershell
 adb -s 192.168.1.192:5555 shell wm density 260
