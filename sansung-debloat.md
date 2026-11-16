@@ -114,7 +114,7 @@ scrcpy -s 192.168.1.192:5555
 --audio-dup `
 --disable-screensaver `
 -b 32M `
---window-height=1029
+--window-height=1060
 ```
 
 ---
