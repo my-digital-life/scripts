@@ -70,6 +70,60 @@ Expected:
 R92X115KKNF
 192.168.1.192:5555
 ```
+---
+
+## SSH Troubleshooting
+
+### Symptoms
+
+```text
+ssh: connect to host 192.168.1.192 port 8022: Connection refused
+```
+
+### Fix
+
+Open Termux and restart SSH:
+
+```bash
+pkill sshd
+sshd
+```
+
+Test from PC:
+
+```bash
+ssh -p 8022 u0_a248@192.168.1.192
+```
+
+Expected:
+
+```text
+Welcome to Termux!
+```
+
+### Important
+
+Do NOT run:
+
+```bash
+sshd
+```
+
+from:
+
+```text
+a05m:/ $
+```
+
+(Android ADB shell)
+
+Run it from:
+
+```text
+u0_a248@localhost:~$
+```
+
+(Termux shell)
 
 ---
 
