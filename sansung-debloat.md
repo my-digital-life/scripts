@@ -221,6 +221,7 @@ adb shell wm size reset
 
 ```powershell
 adb -s 192.168.1.192:5555 shell wm density 260
+```
 
 ```powershell
 adb -s 192.168.1.192:5555 shell wm density
