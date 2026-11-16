@@ -217,6 +217,27 @@ Restore default size:
 adb shell wm size reset
 ```
 
+## Using WiFi connection (tcip)
+
+```powershell
+adb -s 192.168.1.192:5555 shell wm density 260
+
+```powershell
+adb -s 192.168.1.192:5555 shell wm density
+```
+
+```powershell
+Physical density: 300
+Override density: 260
+```
+
+## reset
+
+```powershell
+adb -s 192.168.1.192:5555 shell wm size reset
+adb -s 192.168.1.192:5555 shell wm density reset
+```
+
 ---
 
 # Termux
