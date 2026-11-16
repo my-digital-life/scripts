@@ -113,8 +113,11 @@ adb -s R92X115KKNF install -r firefox.apk
 
 Source:
 
-- F-Droid
-- Mozilla
+- F-Droid -    
+  https://f-droid.org/en/    
+- Mozilla - at the time of writing Firefox was at version 160, Move up 1 folder for other versions    
+  https://ftp.mozilla.org/pub/fenix/releases/160.0/android/fenix-160.0-android-arm64-v8a/    
+  https://ftp.mozilla.org/pub/fenix/releases/160.0/android/fenix-160.0-android-arm64-v8a/fenix-160.0.multi.android-arm64-v8a.apk    
 
 ## Termux
 
