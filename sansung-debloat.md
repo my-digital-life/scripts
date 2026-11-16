@@ -1,5 +1,178 @@
 # Samsung A05 (SM-A055M) Debloat & Remote Management Notes
 
+---
+
+# Software Installation Notes
+
+## Install ADB and scrcpy using WinGet
+
+### Install scrcpy
+
+```powershell
+winget install Genymobile.scrcpy
+```
+
+Verify:
+
+```powershell
+scrcpy --version
+```
+
+### Install Android Platform Tools (ADB)
+
+```powershell
+winget install Google.AndroidSDK.PlatformTools
+```
+
+Verify:
+
+```powershell
+adb version
+```
+
+---
+
+# Connect A05 via ADB
+
+### USB
+
+```powershell
+adb devices
+```
+
+Expected:
+
+```text
+R92X115KKNF    device
+```
+
+### Enable Wi-Fi ADB
+
+```powershell
+adb -s R92X115KKNF tcpip 5555
+```
+
+### Connect over Wi-Fi
+
+```powershell
+adb connect 192.168.1.192:5555
+```
+
+Verify:
+
+```powershell
+adb devices
+```
+
+Expected:
+
+```text
+R92X115KKNF
+192.168.1.192:5555
+```
+
+---
+
+# APK Installation
+
+## General APK Install
+
+### Single APK
+
+```powershell
+adb -s 192.168.1.192:5555 install app.apk
+```
+
+### Replace Existing App
+
+```powershell
+adb -s 192.168.1.192:5555 install -r app.apk
+```
+
+### Install from USB Device
+
+```powershell
+adb -s R92X115KKNF install -r app.apk
+```
+
+### Uninstall App
+
+```powershell
+adb uninstall package.name
+```
+
+---
+
+# Installed APKs
+
+## Firefox
+
+```powershell
+adb -s R92X115KKNF install -r firefox.apk
+```
+
+Source:
+
+- F-Droid
+- Mozilla
+
+## Termux
+
+```text
+Termux APK
+```
+
+Source:
+
+- F-Droid
+
+## Termux API
+
+```text
+Termux:API APK
+```
+
+Source:
+
+- F-Droid
+
+## scrcpy Access
+
+Used ADB over TCP/IP:
+
+```powershell
+adb connect 192.168.1.192:5555
+scrcpy -s 192.168.1.192:5555
+```
+
+---
+
+# Current Working scrcpy Configuration
+
+## Device Settings
+
+```text
+Physical Resolution: 720x1600
+Physical Density: 300
+Override Density: 260
+```
+
+Set Density:
+
+```powershell
+adb -s 192.168.1.192:5555 shell wm density 260
+```
+
+Restore Density:
+
+```powershell
+adb -s 192.168.1.192:5555 shell wm density reset
+```
+
+---
+
+## Preferred
+
 ## Device Information
 
 ```bash
@@ -106,7 +279,7 @@ scrcpy -s 192.168.1.192:5555
 ### Full preferred settings
 
 ```powershell
-& "C:\Program Files\Adb Device Manager\All helper\scrcpy\scrcpy.exe" `
+scrcpy `
 -s 192.168.1.192:5555 `
 --turn-screen-off `
 --stay-awake `
