@@ -1,15 +1,40 @@
-# Samsung A05 (SM-A055M) Debloat & Remote Management Notes
+# Samsung A05 (SM-A055M)
+
+Android 15 / Termux / ADB / scrcpy / SSH Notes
 
 ---
 
-# Software Installation Notes
+# Device Information
 
-## Install ADB and scrcpy using WinGet
+```text
+Model: SM-A055M
+Device: a05m
+Android: 15
+Security Patch: 2026-09-05
 
-### Install scrcpy
+CPU: MediaTek MT6768
+RAM: 4 GB
+Storage: 64 GB
+
+Bootloader: Locked
+VBMeta: Locked
+OEM Unlock Allowed: No
+
+ADB over Wi‑Fi: Working
+scrcpy over Wi‑Fi: Working
+Termux: Working
+SSH: Working
+tmux: Working
+```
+
+---
+
+# Windows Software Installation
+
+## scrcpy
 
 ```powershell
-winget install Genymobile.scrcpy
+winget install -e --id Genymobile.scrcpy
 ```
 
 Verify:
@@ -18,10 +43,10 @@ Verify:
 scrcpy --version
 ```
 
-### Install Android Platform Tools (ADB)
+## Android Platform Tools (ADB)
 
 ```powershell
-winget install Google.AndroidSDK.PlatformTools
+winget install -e --id Google.PlatformTools
 ```
 
 Verify:
@@ -30,14 +55,10 @@ Verify:
 adb version
 ```
 
----
-
-# WinSCP
-
-## Install Using WinGet
+## WinSCP
 
 ```powershell
-winget install WinSCP.WinSCP
+winget install -e --id WinSCP.WinSCP
 ```
 
 Verify:
@@ -46,156 +67,21 @@ Verify:
 winget list WinSCP
 ```
 
----
+## If Installation Fails
 
-## Connect to Termux
+Search for package IDs:
 
-### Protocol
-
-```text
-SFTP
-```
-
-### Hostname
-
-```text
-192.168.1.192
-```
-
-### Port
-
-```text
-8022
-```
-
-### Username
-
-```text
-u0_a248
-```
-
-### Password
-
-```text
-<your Termux password>
+```powershell
+winget search scrcpy
+winget search platform
+winget search winscp
 ```
 
 ---
 
-## Common Locations
+# ADB
 
-### Termux Home Directory
-
-```text
-/data/data/com.termux/files/home
-```
-
-### Shared Storage
-
-Requires:
-
-```bash
-termux-setup-storage
-```
-
-Location:
-
-```text
-/storage/emulated/0
-```
-
-Equivalent to:
-
-```text
-Internal Storage
-```
-
-### Downloads Folder
-
-```text
-/storage/emulated/0/Download
-```
-
-### Documents Folder
-
-```text
-/storage/emulated/0/Documents
-```
-
----
-
-## Transfer Examples
-
-### Upload debloat.md
-
-Local:
-
-```text
-C:\Users\<username>\Documents\debloat.md
-```
-
-Remote:
-
-```text
-/data/data/com.termux/files/home/debloat.md
-```
-
-### Upload APK
-
-Remote:
-
-```text
-/storage/emulated/0/Download/
-```
-
-Install:
-
-```bash
-adb -s 192.168.1.192:5555 install /path/to/app.apk
-```
-
-or manually from Android.
-
----
-
-## SSH Test
-
-Verify SSH before opening WinSCP:
-
-```bash
-ssh -p 8022 u0_a248@192.168.1.192
-```
-
-Expected:
-
-```text
-Welcome to Termux!
-```
-
----
-
-## Recover SSH
-
-If WinSCP stops connecting:
-
-```bash
-pkill sshd
-sshd
-```
-
-Verify:
-
-```bash
-ssh -p 8022 u0_a248@192.168.1.192
-```
-
-Then reconnect WinSCP.
-
----
-
-# Connect A05 via ADB
-
-### USB
+## Verify USB Device
 
 ```powershell
 adb devices
@@ -207,13 +93,13 @@ Expected:
 R92X115KKNF    device
 ```
 
-### Enable Wi-Fi ADB
+## Enable Wi‑Fi ADB
 
 ```powershell
 adb -s R92X115KKNF tcpip 5555
 ```
 
-### Connect over Wi-Fi
+## Connect Over Wi‑Fi
 
 ```powershell
 adb connect 192.168.1.192:5555
@@ -228,89 +114,38 @@ adb devices
 Expected:
 
 ```text
-R92X115KKNF
-192.168.1.192:5555
-```
----
-
-## SSH Troubleshooting
-
-### Symptoms
-
-```text
-ssh: connect to host 192.168.1.192 port 8022: Connection refused
+192.168.1.192:5555    device
 ```
 
-### Fix
+## Open Android Shell
 
-Open Termux and restart SSH:
-
-```bash
-pkill sshd
-sshd
+```powershell
+adb -s 192.168.1.192:5555 shell
 ```
-
-Test from PC:
-
-```bash
-ssh -p 8022 u0_a248@192.168.1.192
-```
-
-Expected:
-
-```text
-Welcome to Termux!
-```
-
-### Important
-
-Do NOT run:
-
-```bash
-sshd
-```
-
-from:
-
-```text
-a05m:/ $
-```
-
-(Android ADB shell)
-
-Run it from:
-
-```text
-u0_a248@localhost:~$
-```
-
-(Termux shell)
 
 ---
 
 # APK Installation
 
-## General APK Install
-
-### Single APK
+## Install APK
 
 ```powershell
 adb -s 192.168.1.192:5555 install app.apk
 ```
 
-### Replace Existing App
+## Replace Existing App
 
 ```powershell
 adb -s 192.168.1.192:5555 install -r app.apk
 ```
 
-### Install from USB Device
+## Install Via USB
 
 ```powershell
 adb -s R92X115KKNF install -r app.apk
 ```
 
-### Uninstall App
+## Uninstall Package
 
 ```powershell
 adb uninstall package.name
@@ -318,183 +153,15 @@ adb uninstall package.name
 
 ---
 
-# Installed APKs
+# scrcpy
 
-## Firefox
-
-```powershell
-adb -s R92X115KKNF install -r firefox.apk
-```
-
-Source:
-
-- F-Droid -    
-  https://f-droid.org/en/    
-- Mozilla - at the time of writing Firefox was at version 160, Move up 1 folder for other versions    
-  https://ftp.mozilla.org/pub/fenix/releases/160.0/android/fenix-160.0-android-arm64-v8a/    
-  https://ftp.mozilla.org/pub/fenix/releases/160.0/android/fenix-160.0-android-arm64-v8a/fenix-160.0.multi.android-arm64-v8a.apk    
-
-## Termux
-
-```text
-Termux APK
-```
-
-Source:
-
-- F-Droid
-
-## Termux API
-
-```text
-Termux:API APK
-```
-
-Source:
-
-- F-Droid
-
-## scrcpy Access
-
-Used ADB over TCP/IP:
+## Basic
 
 ```powershell
-adb connect 192.168.1.192:5555
 scrcpy -s 192.168.1.192:5555
 ```
 
----
-
-# Current Working scrcpy Configuration
-
-## Device Settings
-
-```text
-Physical Resolution: 720x1600
-Physical Density: 300
-Override Density: 260
-```
-
-Set Density:
-
-```powershell
-adb -s 192.168.1.192:5555 shell wm density 260
-```
-
-Restore Density:
-
-```powershell
-adb -s 192.168.1.192:5555 shell wm density reset
-```
-
----
-
-## Preferred
-
-## Device Information
-
-```bash
-# Generate Android/Termux report
-./android-report.sh
-
-# Display report
-cat ~/android-report.txt
-
-# Show Android version
-getprop ro.build.version.release
-
-# Show device model
-getprop ro.product.model
-
-# Show security patch
-getprop ro.build.version.security_patch
-
-# Show bootloader state
-getprop ro.boot.flash.locked
-
-# Show vbmeta state
-getprop ro.boot.vbmeta.device_state
-```
-
----
-
-## ADB Over Wi-Fi
-
-### Verify USB device
-
-```bash
-adb devices
-```
-
-Expected:
-
-```text
-R92X115KKNF    device
-```
-
-### Enable TCP/IP mode
-
-```bash
-adb -s R92X115KKNF tcpip 5555
-```
-
-Expected:
-
-```text
-restarting in TCP mode port: 5555
-```
-
-### Connect over Wi-Fi
-
-```bash
-adb connect 192.168.1.192:5555
-```
-
-### Verify network ADB
-
-```bash
-adb devices
-```
-
-Expected:
-
-```text
-R92X115KKNF            device
-192.168.1.192:5555     device
-```
-
-### Open ADB shell
-
-```bash
-adb -s 192.168.1.192:5555 shell
-```
-
----
-
-## scrcpy
-
-### Basic connection
-
-```bash
-scrcpy -s 192.168.1.192:5555
-```
-
-### PowerShell version
-
-```powershell
-& "C:\Program Files\Adb Device Manager\All helper\scrcpy\scrcpy.exe" -s 192.168.1.192:5555
-```
-
-### Turn phone screen off
-
-```powershell
-& "C:\Program Files\Adb Device Manager\All helper\scrcpy\scrcpy.exe" `
--s 192.168.1.192:5555 `
---turn-screen-off `
---stay-awake
-```
-
-### Full preferred settings
+## Preferred Settings
 
 ```powershell
 scrcpy `
@@ -508,91 +175,201 @@ scrcpy `
 --window-height=1060
 ```
 
+Current preferred window height:
+
+```text
+1060
+```
+
 ---
 
-## SSH (Termux)
+# Display Settings
 
-### Install OpenSSH
+Physical display:
+
+```text
+720 x 1600
+Density 300
+```
+
+Check current settings:
+
+```powershell
+adb shell wm size
+adb shell wm density
+```
+
+Current preferred density:
+
+```powershell
+adb shell wm density 260
+```
+
+Restore default density:
+
+```powershell
+adb shell wm density reset
+```
+
+Restore default size:
+
+```powershell
+adb shell wm size reset
+```
+
+---
+
+# Termux
+
+## Install OpenSSH
 
 ```bash
 pkg install openssh
 ```
 
-### Start SSH server
+## Start SSH
 
 ```bash
 sshd
 ```
 
-### Verify SSH daemon
-
-```bash
-ps -A | grep sshd
-```
-
-### Verify listening ports
-
-```bash
-ss -tln | grep 8022
-```
-
-Expected:
-
-```text
-LISTEN 0.0.0.0:8022
-LISTEN *:8022
-```
-
-### Connect from PC
+## Connect From PC
 
 ```bash
 ssh -p 8022 u0_a248@192.168.1.192
 ```
 
-### Test SSH Port (PowerShell)
+---
 
-```powershell
-Test-NetConnection 192.168.1.192 -Port 8022
+# SSH Troubleshooting
+
+## Connection Refused
+
+Restart SSH from **Termux**:
+
+```bash
+pkill sshd
+sshd
+```
+
+Test:
+
+```bash
+ssh -p 8022 u0_a248@192.168.1.192
+```
+
+Expected:
+
+```text
+Welcome to Termux!
+```
+
+## Important
+
+Do NOT run:
+
+```bash
+sshd
+```
+
+from:
+
+```text
+a05m:/ $
+```
+
+(Android shell)
+
+Run it from:
+
+```text
+u0_a248@localhost:~$
+```
+
+(Termux)
+
+---
+
+# WinSCP
+
+Protocol:
+
+```text
+SFTP
+```
+
+Host:
+
+```text
+192.168.1.192
+```
+
+Port:
+
+```text
+8022
+```
+
+Username:
+
+```text
+u0_a248
+```
+
+Password:
+
+```text
+Termux password
+```
+
+Termux home:
+
+```text
+/data/data/com.termux/files/home
+```
+
+Shared storage:
+
+```bash
+termux-setup-storage
+```
+
+Location:
+
+```text
+/storage/emulated/0
 ```
 
 ---
 
-## tmux
+# tmux
 
-### Create session
+Create session:
 
 ```bash
 tmux new -s phone
 ```
 
-### List sessions
+List sessions:
 
 ```bash
 tmux ls
 ```
 
-### Reattach
+Attach:
 
 ```bash
 tmux attach -t phone
 ```
 
-### Detach
-
-Press:
+Detach:
 
 ```text
 Ctrl+B
 D
 ```
 
-### Basic tmux config
-
-```bash
-nano ~/.tmux.conf
-```
-
-Contents:
+Configuration:
 
 ```text
 set -g mouse on
@@ -600,196 +377,84 @@ set -g history-limit 50000
 set -g set-clipboard on
 ```
 
-Reload config:
+---
 
-```bash
-tmux source-file ~/.tmux.conf
+# Installed Applications
+
+## Firefox
+
+```powershell
+adb -s R92X115KKNF install -r firefox.apk
 ```
+
+Source:
+
+https://f-droid.org/
+
+Mozilla Releases:
+
+https://ftp.mozilla.org/pub/fenix/releases/
+
+## Termux
+
+Source:
+
+https://f-droid.org/
+
+## Termux API
+
+Source:
+
+https://f-droid.org/
 
 ---
 
-## Network Information
+# Samsung Debloat
 
-### Interfaces
-
-```bash
-ifconfig
-```
-
-### IP Address
-
-```bash
-ip addr show wlan0
-```
-
-### Routes
-
-```bash
-ip route
-```
-
-### DNS
-
-```bash
-getprop | grep dns
-```
-
----
-
-## Root / Bootloader Inspection
-
-### Check current user
-
-```bash
-id
-```
-
-### Check for root
-
-```bash
-which su
-which magisk
-```
-
-### Bootloader lock status
-
-```bash
-getprop ro.boot.flash.locked
-```
-
-Expected:
-
-```text
-1
-```
-
-### Verified boot state
-
-```bash
-getprop ro.boot.vbmeta.device_state
-```
-
-Expected:
-
-```text
-locked
-```
-
-### OEM unlock state
-
-```bash
-getprop | grep -i oem
-```
-
-Observed:
-
-```text
-sys.oem_unlock_allowed=0
-```
-
----
-
-## Samsung Debloat
-
-### List Samsung packages
+List packages:
 
 ```bash
 pm list packages | grep samsung
 ```
 
-### Samsung Health
+Samsung Health:
 
 ```bash
 pm uninstall --user 0 com.sec.android.app.shealth
 ```
 
-### SmartThings
+SmartThings:
 
 ```bash
 pm uninstall --user 0 com.samsung.android.oneconnect
 ```
 
-### Samsung Members
+Samsung Members:
 
 ```bash
 pm uninstall --user 0 com.samsung.android.voc
 ```
 
-### Samsung Free
+Samsung Free:
 
 ```bash
 pm uninstall --user 0 com.samsung.android.app.spage
 ```
 
-### Samsung Global Goals
+Samsung Global Goals:
 
 ```bash
 pm uninstall --user 0 com.samsung.sree
 ```
 
-### Smart Switch
+Smart Switch:
 
 ```bash
 pm uninstall --user 0 com.sec.android.easyMover
 ```
 
-### Samsung Internet
+Samsung Internet:
 
 ```bash
 pm uninstall --user 0 com.sec.android.app.sbrowser
-```
-
----
-
-## Useful Aliases
-
-Create aliases:
-
-```bash
-nano ~/.bash_aliases
-```
-
-Contents:
-
-```bash
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias cls='clear'
-alias ports='ss -tulpn'
-alias mem='free -h'
-alias disks='df -h'
-alias myip='ifconfig wlan0'
-```
-
-Load aliases:
-
-```bash
-echo 'source ~/.bash_aliases' >> ~/.bashrc
-source ~/.bashrc
-```
-
----
-
-## Current Device Summary
-
-```text
-Model: SM-A055M
-Device: a05m
-Android: 15
-Security Patch: 2026-09-05
-CPU: MediaTek MT6768
-RAM: 4 GB
-Storage: 64 GB
-ABI: arm64-v8a
-
-Bootloader: Locked
-VBMeta: Locked
-OEM Unlock Allowed: No
-
-ADB over Wi-Fi: Working
-scrcpy over Wi-Fi: Working
-Termux: Working
-SSH: Installed
-tmux: Working
 ```
